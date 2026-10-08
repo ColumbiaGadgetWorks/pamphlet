@@ -18,7 +18,7 @@ Added:
 
 - [x] Free Open Hack Night, every Thursday 6 to 8 pm (cover, back, and inside)
 - [x] What a first visit is like: tour, basic tools, demos, bring a project or not
-- [x] Address, parking, front door with the gear logo and doorbell, phone, and email
+- [x] Address, parking, front door with the gear logo and doorbell, and email
 - [x] Visitor basics: closed-toe shoes, safety glasses, step-free entrance, kids with a guardian
 - [x] Short "who we are": what a makerspace is, volunteer-run 501(c)(3), in the same building since 2017, mission
 - [x] Something members built: the combat robot arena photo, plus the Roll-to-Prone bed from 2020
@@ -43,7 +43,7 @@ Added:
 
 - [ ] **SawStop photo.** The woodshop card still uses the general woodshop photo. Save a real photo of the shop's SawStop as `assets/photos/sawstop.jpg`, change the woodshop `<img>` in `pamphlet.html` to point at it, and rebuild.
 
-- [ ] **Discord invite** `discord.gg/yjpeBrAjuR` is set to never expire and has no use limit.
+- [x] **Discord invite** `discord.gg/yjpeBrAjuR` is set to never expire.
 - [ ] **Laser cutter**: the website says OMTech MF2028-80, but the photo shows a "Preenex" badge. The pamphlet says only "80 W CO2" to avoid the conflict. Fix the website if needed.
 - [ ] **Class program dates** (Nov 5, 2026 through Oct 2027, first Thursdays) and the OCA acknowledgement wording match the grant agreement.
 - [ ] **Dues** are still $50 a month.

@@ -26,7 +26,7 @@ What is in it, ideas for more, and the pre-print checklist:
 ## Business card
 
 Standard US business card, 3.5 x 2 in, two-sided. Front: logo and name.
-Back: Open Hack Night, address, website, email, phone, a Discord QR code,
+Back: Open Hack Night, address, website, email, a Discord QR code,
 and a row of social icons with the Instagram handle.
 
 | Front | Back |
