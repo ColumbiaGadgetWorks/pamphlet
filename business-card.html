@@ -60,11 +60,12 @@
     background-size: .25in .25in;
     color: #fff;
     display: flex;
-    align-items: center;
-    gap: .14in;
-    /* Sit the block a little above center, clear of the rust stripe */
-    padding-bottom: calc(var(--bleed) + var(--safe) + .06in);
+    flex-direction: column;
+    justify-content: space-between;
+    /* Keep the tool row clear of the rust stripe */
+    padding-bottom: calc(var(--bleed) + .07in + .1in);
   }
+  .front .brand { display: flex; align-items: center; gap: .14in; flex: 1; }
   .front::after {
     /* Rust rule along the bottom, running into the bleed */
     content: "";
@@ -75,13 +76,13 @@
     height: calc(var(--bleed) + .07in);
     background: var(--rust);
   }
-  .front .logo { width: 1.12in; height: 1.12in; flex: none; }
+  .front .logo { width: 1.02in; height: 1.02in; flex: none; }
   .front .name {
-    font-size: 19pt;
+    font-size: 18.5pt;
     font-weight: 700;
     line-height: 1;
     letter-spacing: -.015em;
-    margin: 0 0 .1in;
+    margin: 0 0 .08in;
   }
   .front .tag {
     font-family: var(--mono);
@@ -150,12 +151,37 @@
   }
   .qr .label img { width: .09in; height: .09in; }
 
-  .all {
-    margin: 0;
-    font-size: 6.2pt;
+  .qr .sub {
+    display: block;
+    font-size: 5pt;
+    line-height: 1.2;
     color: var(--muted);
+    margin-top: .02in;
   }
-  .all b { font-family: var(--mono); color: var(--rust-dark); }
+
+  /* Best tools, as small tags along the bottom of the front */
+  .tools {
+    list-style: none;
+    padding: .06in 0 0;
+    margin: 0;
+    border-top: .75pt solid rgba(255,255,255,.18);
+    display: flex;
+    justify-content: space-between;
+    gap: .03in;
+  }
+  .tools li {
+    font-family: var(--mono);
+    font-size: 5.3pt;
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #E7E3DC;
+    border: .75pt solid rgba(255,255,255,.22);
+    border-left: 2pt solid var(--rust);
+    padding: 1.5pt 3pt;
+    line-height: 1.2;
+  }
 
   /* Social row along the bottom */
   .social {
@@ -167,13 +193,9 @@
     margin-top: .04in;
   }
   .social img { width: .13in; height: .13in; }
-  .social .handle {
-    font-family: var(--mono);
-    font-size: 6.6pt;
-    font-weight: 700;
-    color: var(--rust-dark);
-    margin-right: auto;
-  }
+  .follow { margin: 0 auto 0 0; line-height: 1.15; }
+  .follow b { display: block; font-size: 7pt; }
+  .follow span { font-family: var(--mono); font-size: 6.2pt; font-weight: 700; color: var(--rust-dark); }
 
   /* ---------- layout: print shop (one card per page, with bleed) ---------- */
   @page { margin: 0; }
@@ -204,11 +226,16 @@
 
 <template id="front">
   <div class="card front">
-    <img class="logo" src="assets/logo/cgw-gear.png" alt="Columbia Gadget Works gear logo">
-    <div>
-      <p class="name">Columbia<br>Gadget Works</p>
-      <p class="tag">Community makerspace<br>Columbia, MO<br>Est. 2017</p>
+    <div class="brand">
+      <img class="logo" src="assets/logo/cgw-gear.png" alt="Columbia Gadget Works gear logo">
+      <div>
+        <p class="name">Columbia<br>Gadget Works</p>
+        <p class="tag">Community makerspace<br>Columbia, MO &middot; Est. 2017</p>
+      </div>
     </div>
+    <ul class="tools">
+      <li>Mill</li><li>Lathe</li><li>3D printers</li><li>Laser cutter</li><li>Table saw</li><li>Welding</li>
+    </ul>
   </div>
 </template>
 
@@ -230,12 +257,12 @@
       <div class="qr">
         <img class="code" src="build/qr/discord.svg" alt="QR code linking to the Columbia Gadget Works Discord server">
         <span class="label"><img src="assets/icons/discord.svg" alt="">Join our Discord</span>
+        <span class="sub">Projects, makers,<br>and hobbyists</span>
       </div>
     </div>
-    <p class="all">Every link in one place: <b>columbiagadgetworks.org/links</b></p>
     <div class="social">
+      <p class="follow"><b>Follow our socials</b><span>columbiagadgetworks.org/links</span></p>
       <img src="assets/icons/instagram.svg" alt="Instagram">
-      <span class="handle">@columbiagadgetworks</span>
       <img src="assets/icons/facebook.svg" alt="Facebook">
       <img src="assets/icons/tiktok.svg" alt="TikTok">
       <img src="assets/icons/bluesky.svg" alt="Bluesky">
