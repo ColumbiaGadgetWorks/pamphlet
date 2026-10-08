@@ -46,5 +46,6 @@ title blocks).
 
 All photos are real photos of the shop, copied from the website repository
 (`ColumbiaGadgetWorks/website`, `assets/img/`). The gear logo is the
-website's `static/img/cgw-gear.png`. No AI-generated images or logos are used;
+website's `static/img/cgw-gear.png`. Social media icons are the official brand marks from
+[Simple Icons](https://simpleicons.org) (CC0), in `assets/icons/`. No AI-generated images or logos are used;
 keep it that way when swapping photos.

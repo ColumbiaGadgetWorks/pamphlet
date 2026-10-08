@@ -324,6 +324,32 @@
   .contact dd { margin: 0; font-weight: 700; font-size: 8.8pt; }
   .contact dd span { font-weight: 400; }
 
+  /* Brand marks from Simple Icons (CC0) */
+  .ico {
+    display: inline-block;
+    width: 1.05em;
+    height: 1.05em;
+    vertical-align: -.15em;
+    flex: none;
+  }
+  .qr .ico { border: 0; background: none; }
+  ul.social { list-style: none; padding: 0; margin: 0; }
+  ul.social li {
+    display: flex;
+    align-items: center;
+    gap: .08in;
+    padding: 3pt 0;
+    border-bottom: .75pt solid var(--line);
+  }
+  ul.social li:last-child { border-bottom: 0; }
+  ul.social .ico { width: .17in; height: .17in; }
+  ul.social b { width: .62in; font-size: 8pt; }
+  ul.social .handle { font-family: var(--mono); font-size: 7.4pt; font-weight: 700; color: var(--rust-dark); }
+
+  .tool-wide { display: flex; margin: 0; }
+  .tool-wide img { width: 1.45in; height: .85in; flex: none; }
+  .tool-wide .t-body { align-self: center; }
+
   .fineprint { font-size: 6.6pt; color: var(--muted); line-height: 1.35; }
   .grow { flex: 1; }
 </style>
@@ -338,7 +364,7 @@
     <div class="section">
       <p class="eyebrow">Join the conversation</p>
       <h2>Find us on Discord</h2>
-      <p>Most day-to-day talk happens on our Discord server: who is coming in Thursday, class announcements, project help, and "does anyone know how to fix a..." questions. You don't need it to visit, but it's the best way to hear about things first.</p>
+      <p>Most day-to-day talk happens on our Discord server: who is coming in on Thursday, class announcements, and help with projects. You don't need it to visit, but it's the best way to hear about things first.</p>
     </div>
 
     <div class="titleblock section">
@@ -347,7 +373,7 @@
         <div class="qr">
           <img src="build/qr/discord.svg" alt="QR code linking to the Columbia Gadget Works Discord server" style="width:1.35in;height:1.35in">
           <div class="qr-text">
-            <h3>CGW Discord</h3>
+            <h3><img class="ico" src="assets/icons/discord.svg" alt="Discord logo"> CGW Discord</h3>
             <p class="small">Free. Open to visitors and members.</p>
             <p class="url" style="margin-top:.06in;white-space:nowrap;font-size:7pt">discord.gg/yjpeBrAjuR</p>
           </div>
@@ -360,9 +386,8 @@
     <div class="section">
       <p class="eyebrow">Get involved</p>
       <ul class="ticks">
-        <li><strong>Teach a class.</strong> You don't need to be an expert, just a step or two ahead and willing to prepare. Post in <span style="font-family:var(--mono)">#classes</span> on Discord.</li>
         <li><strong>Volunteer.</strong> Zone leads, classes, membership, facilities, and communications are all run by members.</li>
-        <li><strong>Bring a group.</strong> We host schools, scout troops, and clubs. Contact us to set up a time.</li>
+        <li><strong>Bring a group.</strong> We host schools and clubs. Contact us to set up a time.</li>
       </ul>
     </div>
 
@@ -389,7 +414,7 @@
       <dt>Address</dt>
       <dd>1404 Grand Ave<br>Columbia, MO 65203<br><span>Just off Business Loop 70, north of downtown</span></dd>
       <dt>Getting in</dt>
-      <dd><span>Park in the gravel lot beside the building. Use the side door with the gear logo, and ring the bell or knock if it's closed.</span></dd>
+      <dd><span>Park in the gravel lot beside the building. Use the front door with the gear logo, and ring the doorbell if it's closed.</span></dd>
       <dt>Phone</dt>
       <dd>573-326-9868</dd>
       <dt>Email</dt>
@@ -419,9 +444,17 @@
       </div>
     </div>
 
+    <p class="eyebrow" style="margin-top:.14in">Follow us</p>
+    <ul class="social">
+      <li><img class="ico" src="assets/icons/instagram.svg" alt="Instagram logo"><b>Instagram</b><span class="handle">@columbiagadgetworks</span></li>
+      <li><img class="ico" src="assets/icons/tiktok.svg" alt="TikTok logo"><b>TikTok</b><span class="handle">@columbia.gadget.w</span></li>
+      <li><img class="ico" src="assets/icons/facebook.svg" alt="Facebook logo"><b>Facebook</b><span class="handle">/columbiagadgetworks</span></li>
+      <li><img class="ico" src="assets/icons/bluesky.svg" alt="Bluesky logo"><b>Bluesky</b><span class="handle">@comogadgetworks.bsky.social</span></li>
+    </ul>
+
     <div class="grow"></div>
 
-    <p class="fineprint" style="margin:0">Columbia Gadget Works welcomes everyone and does not discriminate in membership or programs. Also on Facebook and Bluesky. Code of conduct and privacy policy at columbiagadgetworks.org.</p>
+    <p class="fineprint" style="margin:0">Columbia Gadget Works welcomes everyone and does not discriminate in membership or programs. Code of conduct and privacy policy at columbiagadgetworks.org.</p>
   </section>
 
   <!-- Front cover -->
@@ -505,9 +538,9 @@
       </div>
     </div>
 
-    <div class="card" style="margin:0">
-      <h3>Woodshop</h3>
-      <p class="small">Table saw, miter saw, band saw, planer, router table, drill press, sanders, and a wall of clamps.</p>
+    <div class="tool tool-wide">
+      <img src="assets/photos/woodshop.jpg" alt="The woodshop">
+      <div class="t-body"><b>Woodshop</b><span>SawStop contractor table saw, plus a miter saw, band saw, planer, router table, drill press, and sanders.</span></div>
     </div>
 
     <div class="grow"></div>
@@ -520,15 +553,15 @@
     <h2>Free monthly classes</h2>
     <div class="card">
       <span class="when">First Thursday of every month</span>
-      <p class="small" style="margin-top:.03in">A free public class every month from November 2026 through October 2027, starting November 5. Topics rotate through every zone in the shop. No membership needed. Some classes have limited seats, so check the calendar for sign-ups.</p>
+      <p class="small" style="margin-top:.03in">A free public class every month from November 2026 through October 2027, starting November 5. Topics rotate through every zone in the shop. No membership or sign-up needed.</p>
     </div>
     <p class="small">Recent classes include metal casting, soldering, machining on the mill and lathe, and a field trip to KOPN community radio. Members teach every class.</p>
 
     <div class="qr" style="margin:.02in 0 .1in">
-      <img src="build/qr/classes.svg" alt="QR code linking to the classes page" style="width:.8in;height:.8in">
+      <img src="build/qr/calendar.svg" alt="QR code linking to the events calendar" style="width:.8in;height:.8in">
       <div class="qr-text">
-        <h3>Class schedule</h3>
-        <p class="url">columbiagadgetworks.org/classes</p>
+        <h3>Events calendar</h3>
+        <p class="url">columbiagadgetworks.org/calendar</p>
       </div>
     </div>
     <p class="fineprint" style="margin:0">Financial assistance for this program has been provided by the City of Columbia Office of Cultural Affairs.</p>
@@ -540,12 +573,11 @@
     <ul class="ticks small">
       <li><strong>24/7 access</strong> with your own door credential</li>
       <li><strong>A storage locker or bin</strong> for projects</li>
-      <li><strong>Training discounts</strong> and first dibs on class seats</li>
+      <li><strong>Discounts</strong> on tool training</li>
       <li><strong>A vote</strong> in how the space is run</li>
     </ul>
     <table class="dues">
-      <tr><td>Standard</td><td>$50/mo</td><td class="muted">Full access, one adult</td></tr>
-      <tr><td>Supporter</td><td>$100/mo</td><td class="muted">Full access, plus helps keep the doors open</td></tr>
+      <tr><td>Membership</td><td>$50/mo</td><td class="muted">Full access, one adult</td></tr>
     </table>
 
     <div class="grow"></div>
