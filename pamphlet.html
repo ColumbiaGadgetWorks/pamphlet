@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Columbia Gadget Works Pamphlet</title>
+<!--
+  Letter-size tri-fold, landscape, printed double-sided (flip on short edge).
+  Sheet 1 is the outside, sheet 2 the inside. Panel order, left to right:
+    outside: [fold-in flap] [back] [front cover]
+    inside:  [panel 1] [panel 2] [panel 3]
+  The fold-in flap and inside panel 3 are 1/16 in narrower than the others
+  so the flap tucks in without buckling.
+
+  Design language comes from the CGW website (rust, steel, warm paper, Arial,
+  uppercase eyebrows, rust left-rule cards) and the shop kiosk page (drafting
+  grid paper, mono labels, ink rules). Photos are real shop photos from the
+  website repo. Copy style: no em dashes.
+-->
+<style>
+  @page { size: 11in 8.5in; margin: 0; }
+
+  :root {
+    /* Website palette (website/assets/css/site.css) */
+    --rust: #BF4D28;
+    --rust-dark: #983C1E;
+    --rust-tint: #F6E3DA;
+    --ink: #1F1F23;
+    --steel: #2B333C;
+    --steel-deep: #1C2228;
+    --paper: #FAF7F2;
+    --muted: #5E5A55;
+    --line: #E5DED4;
+    /* Kiosk drafting grid, warmed to sit on the website's paper */
+    --grid: #EFE6DA;
+
+    --font: Arial, "Liberation Sans", "Helvetica Neue", Helvetica, sans-serif;
+    --mono: Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
+
+    --full: 3.6875in;
+    --flap: 3.625in;
+    /* Office printers cannot print to the paper edge; keep everything this far in. */
+    --safe: 0.3in;
+    --gutter: 0.28in;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font);
+    color: var(--ink);
+    font-size: 8.6pt;
+    line-height: 1.38;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: #fff;
+  }
+  p { margin: 0 0 .55em; }
+  img { display: block; max-width: 100%; }
+  strong { font-weight: 700; }
+
+  .sheet {
+    width: 11in;
+    height: 8.5in;
+    display: flex;
+    background: #fff;
+    overflow: hidden;
+    break-after: page;
+  }
+  .sheet:last-child { break-after: auto; }
+
+  .panel {
+    position: relative;
+    height: 100%;
+    flex: none;
+    width: var(--full);
+    padding: var(--safe) var(--gutter);
+    display: flex;
+    flex-direction: column;
+    /* Kiosk-style drafting grid on the website's warm paper */
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(var(--grid) .6pt, transparent .6pt),
+      linear-gradient(90deg, var(--grid) .6pt, transparent .6pt);
+    background-size: .25in .25in;
+    background-position: -.3pt -.3pt;
+  }
+  .panel.flap { width: var(--flap); }
+  /* Outer edges of the sheet get the printer-safe margin on that side only. */
+  .sheet > .panel:first-child { padding-left: var(--safe); }
+  .sheet > .panel:last-child { padding-right: var(--safe); }
+
+  /* ---------- type ---------- */
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 6.6pt;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--rust-dark);
+    margin: 0 0 .35em;
+  }
+  h2 {
+    font-size: 15pt;
+    line-height: 1.1;
+    letter-spacing: -.005em;
+    margin: 0 0 .4em;
+  }
+  h3 {
+    font-size: 9.6pt;
+    line-height: 1.2;
+    margin: 0 0 .2em;
+  }
+  .section + .section { margin-top: .16in; }
+  .rule {
+    border: 0;
+    border-top: 1.2pt solid var(--ink);
+    margin: .14in 0;
+  }
+  .muted { color: var(--muted); }
+  .small { font-size: 7.4pt; }
+  .url {
+    font-family: var(--mono);
+    font-size: 7.6pt;
+    font-weight: 700;
+    color: var(--rust-dark);
+    word-break: break-all;
+  }
+
+  ul.ticks { list-style: none; padding: 0; margin: 0 0 .5em; }
+  ul.ticks li { position: relative; padding-left: 12pt; margin: 0 0 .28em; }
+  ul.ticks li::before {
+    content: "";
+    position: absolute;
+    left: 1pt;
+    top: .45em;
+    width: 5pt;
+    height: 5pt;
+    background: var(--rust);
+  }
+
+  /* Website "recurring" card: white, thin line, rust left rule */
+  .card {
+    background: #fff;
+    border: .75pt solid var(--line);
+    border-left: 3pt solid var(--rust);
+    border-radius: 3pt;
+    padding: .09in .12in;
+    margin: 0 0 .1in;
+  }
+  .card .when { color: var(--rust-dark); font-weight: 700; display: block; }
+  .card p:last-child { margin-bottom: 0; }
+
+  /* Kiosk-style title block: ink border, mono label row */
+  .titleblock {
+    border: 1.2pt solid var(--ink);
+    background: #fff;
+  }
+  .titleblock .tb-head {
+    font-family: var(--mono);
+    font-size: 6.4pt;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    border-bottom: 1.2pt solid var(--ink);
+    padding: 3pt 6pt;
+    display: flex;
+    justify-content: space-between;
+  }
+  .titleblock .tb-body { padding: .1in .12in; }
+
+  /* ---------- QR ---------- */
+  .qr {
+    display: flex;
+    gap: .12in;
+    align-items: center;
+  }
+  .qr img {
+    flex: none;
+    background: #fff;
+    border: .75pt solid var(--line);
+  }
+  .qr .qr-text h3 { margin-bottom: .1em; }
+  .qr .qr-text p { margin: 0; }
+
+  .qr-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .12in;
+  }
+  .qr-mini { text-align: center; }
+  .qr-mini img { width: .95in; height: .95in; margin: 0 auto .04in; background: #fff; border: .75pt solid var(--line); }
+  .qr-mini b { display: block; font-size: 8.4pt; }
+  .qr-mini .url { font-size: 6.6pt; }
+
+  /* ---------- cover ---------- */
+  .cover {
+    background: var(--steel-deep);
+    color: #fff;
+    padding: 0;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .cover-photo {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+  .cover-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 46% 50%;
+    opacity: .42;
+    filter: saturate(.8);
+  }
+  .cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(28,34,40,.96) 0%, rgba(28,34,40,.82) 46%, rgba(28,34,40,.35) 70%, rgba(28,34,40,.92) 100%);
+  }
+  .cover-inner {
+    height: 100%;
+    padding: .45in var(--safe) var(--safe) .32in;
+    display: flex;
+    flex-direction: column;
+  }
+  .cover .logo { width: 1.05in; height: 1.05in; margin-bottom: .2in; }
+  .cover .eyebrow { color: #F3A98A; }
+  .cover h1 {
+    font-size: 30pt;
+    line-height: .98;
+    letter-spacing: -.01em;
+    margin: 0 0 .14in;
+  }
+  .cover .lead { font-size: 10.5pt; color: #E7E3DC; line-height: 1.4; max-width: 2.9in; }
+  .cover .spacer { flex: 1; }
+  .hack-chip {
+    background: rgba(255,255,255,.08);
+    border: .75pt solid rgba(255,255,255,.25);
+    border-left: 3pt solid var(--rust);
+    padding: .09in .12in;
+    border-radius: 2pt;
+    font-size: 9pt;
+    line-height: 1.35;
+  }
+  .hack-chip b { display: block; font-size: 11pt; }
+  .cover .address {
+    font-family: var(--mono);
+    font-size: 7.2pt;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #D9D4CD;
+    margin-top: .12in;
+  }
+
+  /* ---------- equipment ---------- */
+  .tools {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .1in .12in;
+    margin-bottom: .08in;
+  }
+  .tool {
+    background: #fff;
+    border: .75pt solid var(--line);
+    border-radius: 3pt;
+    overflow: hidden;
+  }
+  .tool img {
+    width: 100%;
+    height: .98in;
+    object-fit: cover;
+  }
+  .tool .t-body { padding: .05in .07in .06in; }
+  .tool b { display: block; font-size: 8.4pt; line-height: 1.15; }
+  .tool span { display: block; font-size: 6.9pt; line-height: 1.25; color: var(--muted); margin-top: 1pt; }
+  .tool .tag {
+    font-family: var(--mono);
+    font-size: 5.6pt;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--rust-dark);
+    margin-top: 2pt;
+  }
+
+  /* ---------- feature photo ---------- */
+  .photo {
+    border-radius: 3pt;
+    overflow: hidden;
+    border: .75pt solid var(--line);
+    margin: 0 0 .06in;
+  }
+  .photo img { width: 100%; height: 1.25in; object-fit: cover; }
+  .caption { font-size: 6.8pt; color: var(--muted); margin: 0 0 .1in; }
+
+  /* ---------- rust band (website donate band) ---------- */
+  .band-rust {
+    background: var(--rust);
+    color: #fff;
+    border-radius: 3pt;
+    padding: .1in .13in;
+  }
+  .band-rust h3 { font-size: 10pt; }
+  .band-rust p { margin: 0; }
+
+  .dues { width: 100%; border-collapse: collapse; margin: .02in 0 .08in; font-size: 8pt; }
+  .dues td { padding: 3pt 0; border-bottom: .75pt solid var(--line); vertical-align: top; }
+  .dues td:first-child { font-weight: 700; width: 38%; }
+  .dues td:nth-child(2) { width: 22%; font-family: var(--mono); font-weight: 700; }
+
+  ol.steps { margin: 0 0 .4em; padding-left: 14pt; }
+  ol.steps li { margin-bottom: .2em; }
+
+  .contact dt {
+    font-family: var(--mono);
+    font-size: 6.2pt;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: .07in;
+  }
+  .contact dd { margin: 0; font-weight: 700; font-size: 8.8pt; }
+  .contact dd span { font-weight: 400; }
+
+  .fineprint { font-size: 6.6pt; color: var(--muted); line-height: 1.35; }
+  .grow { flex: 1; }
+</style>
+</head>
+<body>
+
+<!-- ======================= SHEET 1: OUTSIDE ======================= -->
+<div class="sheet">
+
+  <!-- Fold-in flap: the first thing seen when the cover is opened -->
+  <section class="panel flap">
+    <div class="section">
+      <p class="eyebrow">Join the conversation</p>
+      <h2>Find us on Discord</h2>
+      <p>Most day-to-day talk happens on our Discord server: who is coming in Thursday, class announcements, project help, and "does anyone know how to fix a..." questions. You don't need it to visit, but it's the best way to hear about things first.</p>
+    </div>
+
+    <div class="titleblock section">
+      <div class="tb-head"><span>Scan to join</span><span>Discord</span></div>
+      <div class="tb-body">
+        <div class="qr">
+          <img src="build/qr/discord.svg" alt="QR code linking to the Columbia Gadget Works Discord server" style="width:1.35in;height:1.35in">
+          <div class="qr-text">
+            <h3>CGW Discord</h3>
+            <p class="small">Free. Open to visitors and members.</p>
+            <p class="url" style="margin-top:.06in;white-space:nowrap;font-size:7pt">discord.gg/yjpeBrAjuR</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <div class="section">
+      <p class="eyebrow">Get involved</p>
+      <ul class="ticks">
+        <li><strong>Teach a class.</strong> You don't need to be an expert, just a step or two ahead and willing to prepare. Post in <span style="font-family:var(--mono)">#classes</span> on Discord.</li>
+        <li><strong>Volunteer.</strong> Zone leads, classes, membership, facilities, and communications are all run by members.</li>
+        <li><strong>Bring a group.</strong> We host schools, scout troops, and clubs. Contact us to set up a time.</li>
+      </ul>
+    </div>
+
+    <div class="grow"></div>
+
+    <div class="band-rust">
+      <h3>Support the shop</h3>
+      <div class="qr" style="gap:.1in">
+        <p class="small" style="flex:1">We are a volunteer-run 501(c)(3) public charity (EIN 27-3926809). Donations pay for rent, equipment, and free public programs, and are tax-deductible.</p>
+        <img src="build/qr/donate.svg" alt="QR code linking to the donation page" style="width:.75in;height:.75in;border:0">
+      </div>
+    </div>
+  </section>
+
+  <!-- Back panel -->
+  <section class="panel">
+    <div class="section">
+      <p class="eyebrow">Visit us</p>
+      <h2>Come by on a Thursday</h2>
+      <p><strong>Open Hack Night is free and open to everyone</strong>, every Thursday from 6 to 8 pm. No membership, sign-up, or experience needed. Skipped only on major holidays.</p>
+    </div>
+
+    <dl class="contact section" style="margin:0">
+      <dt>Address</dt>
+      <dd>1404 Grand Ave<br>Columbia, MO 65203<br><span>Just off Business Loop 70, north of downtown</span></dd>
+      <dt>Getting in</dt>
+      <dd><span>Park in the gravel lot beside the building. Use the side door with the gear logo, and ring the bell or knock if it's closed.</span></dd>
+      <dt>Phone</dt>
+      <dd>573-326-9868</dd>
+      <dt>Email</dt>
+      <dd>mail@columbiagadgetworks.org</dd>
+    </dl>
+
+    <div class="card section" style="margin-top:.14in">
+      <h3>Good to know</h3>
+      <p class="small">Wear closed-toe shoes; safety glasses are at the door. The shop is one level with a step-free entrance. Kids are welcome with a parent or guardian who stays with them.</p>
+    </div>
+
+    <hr class="rule" style="margin-top:.04in">
+
+    <p class="eyebrow">Online</p>
+    <div class="qr-row">
+      <div class="qr-mini">
+        <img src="build/qr/website.svg" alt="QR code linking to the Columbia Gadget Works website">
+        <b>Website</b>
+        <span class="url">columbiagadgetworks.org</span>
+        <p class="fineprint" style="margin-top:.03in">Calendar, classes, tools, membership</p>
+      </div>
+      <div class="qr-mini">
+        <img src="build/qr/wiki.svg" alt="QR code linking to the member wiki">
+        <b>Wiki</b>
+        <span class="url">wiki.comogadget.casa</span>
+        <p class="fineprint" style="margin-top:.03in">Tool guides, shop policies, project notes</p>
+      </div>
+    </div>
+
+    <div class="grow"></div>
+
+    <p class="fineprint" style="margin:0">Columbia Gadget Works welcomes everyone and does not discriminate in membership or programs. Also on Facebook and Bluesky. Code of conduct and privacy policy at columbiagadgetworks.org.</p>
+  </section>
+
+  <!-- Front cover -->
+  <section class="panel cover">
+    <div class="cover-photo"><img src="assets/photos/open-hack-night.jpg" alt=""></div>
+    <div class="cover-inner">
+      <img class="logo" src="assets/logo/cgw-gear.png" alt="Columbia Gadget Works gear logo">
+      <p class="eyebrow">Columbia, Missouri &middot; Since 2017</p>
+      <h1>Columbia Gadget Works</h1>
+      <p class="lead">A community workshop where anyone can learn, build, and fix things.</p>
+      <div class="spacer"></div>
+      <div class="hack-chip">
+        <b>Free Open Hack Night</b>
+        Every Thursday, 6 to 8 pm<br>No membership or experience required
+      </div>
+      <p class="address">1404 Grand Ave, Columbia, MO<br>columbiagadgetworks.org</p>
+    </div>
+  </section>
+</div>
+
+<!-- ======================= SHEET 2: INSIDE ======================= -->
+<div class="sheet">
+
+  <!-- Inside panel 1 -->
+  <section class="panel">
+    <div class="section">
+      <p class="eyebrow">Who we are</p>
+      <h2>Columbia's community makerspace</h2>
+      <p>A makerspace is a shared workshop. Think of a public library, but for tools. By pooling dues and donations, members share equipment few people could buy or fit at home, and share what they know about using it.</p>
+      <p>Columbia Gadget Works is a <strong>volunteer-run, member-supported 501(c)(3) nonprofit</strong>, in the same building on Grand Avenue since 2017. Our mission is an inclusive workshop where people of all skill levels can explore, learn, and build.</p>
+    </div>
+
+    <div class="card section">
+      <span class="when">Thursdays, 6 to 8 pm &middot; Free</span>
+      <h3 style="margin-top:.04in">What happens at Open Hack Night</h3>
+      <ul class="ticks small" style="margin:0">
+        <li><strong>Get a tour.</strong> A member shows you every zone in about ten minutes.</li>
+        <li><strong>Use the basic tools.</strong> Hand tools, the electronics bench, and the 3D printers with a member's help.</li>
+        <li><strong>See the big machines.</strong> The laser, CNC, mill, and lathe need training, but someone will gladly demo them.</li>
+        <li><strong>Bring a project, or don't.</strong> A broken lamp, a half-built robot, a file to print, or nothing at all.</li>
+      </ul>
+    </div>
+
+    <div class="grow"></div>
+
+    <p class="eyebrow">Built here</p>
+    <div class="photo"><img src="assets/photos/battlebots-arena.jpg" alt="Two small combat robots inside the member-built arena"></div>
+    <p class="caption" style="margin:0"><strong style="color:var(--ink)">The Chamber of Robotic Aggression</strong>, a member-built combat robot arena. In 2020, members also designed the open-source Roll-to-Prone bed to help hospitals turn COVID-19 patients safely.</p>
+  </section>
+
+  <!-- Inside panel 2: equipment -->
+  <section class="panel">
+    <p class="eyebrow">The shop</p>
+    <h2>Equipment</h2>
+    <p class="small" style="margin-bottom:.1in">Shared like a library, in zones run by volunteer leads. Members use anything they're trained on.</p>
+
+    <div class="tools">
+      <div class="tool">
+        <img src="assets/photos/laser-cutter.webp" alt="The laser cutter with its lid open">
+        <div class="t-body"><b>Laser cutter</b><span>80 W CO&#8322;. Cuts and engraves wood, acrylic, leather.</span></div>
+      </div>
+      <div class="tool">
+        <img src="assets/photos/cnc-router.jpg" alt="The CNC router cutting plywood">
+        <div class="t-body"><b>CNC router</b><span>Shapeoko 4 XL. Signs, parts, and furniture joinery.</span></div>
+      </div>
+      <div class="tool">
+        <img src="assets/photos/3d-printers.webp" alt="Two Bambu Lab 3D printers">
+        <div class="t-body"><b>3D printers</b><span>Bambu Lab X1 Carbon and A1, multi-color.</span></div>
+      </div>
+      <div class="tool">
+        <img src="assets/photos/metalworking-class.jpg" alt="A class at the milling machine" style="object-position:30% 50%">
+        <div class="t-body"><b>Metal shop</b><span>Bridgeport mill, Clausing lathe, MIG/TIG/stick welding.</span></div>
+      </div>
+      <div class="tool">
+        <img src="assets/photos/metal-casting-parts.jpg" alt="Small cast brass pieces" style="object-position:50% 40%">
+        <div class="t-body"><b>Metal casting</b><span>Turn a 3D print into brass, bronze, or aluminum.</span></div>
+      </div>
+      <div class="tool">
+        <img src="assets/photos/electronics-bench.jpg" alt="The electronics bench">
+        <div class="t-body"><b>Electronics bench</b><span>Soldering, hot-air rework, oscilloscope, parts.</span></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin:0">
+      <h3>Woodshop</h3>
+      <p class="small">Table saw, miter saw, band saw, planer, router table, drill press, sanders, and a wall of clamps.</p>
+    </div>
+
+    <div class="grow"></div>
+    <p class="fineprint" style="margin:0">The laser, CNC router, metal shop, casting, and table saw require training first. Tool guides and settings are on the wiki.</p>
+  </section>
+
+  <!-- Inside panel 3 (tucked side of the flap) -->
+  <section class="panel flap">
+    <p class="eyebrow">Learn something new</p>
+    <h2>Free monthly classes</h2>
+    <div class="card">
+      <span class="when">First Thursday of every month</span>
+      <p class="small" style="margin-top:.03in">A free public class every month from November 2026 through October 2027, starting November 5. Topics rotate through every zone in the shop. No membership needed. Some classes have limited seats, so check the calendar for sign-ups.</p>
+    </div>
+    <p class="small">Recent classes include metal casting, soldering, machining on the mill and lathe, and a field trip to KOPN community radio. Members teach every class.</p>
+
+    <div class="qr" style="margin:.02in 0 .1in">
+      <img src="build/qr/classes.svg" alt="QR code linking to the classes page" style="width:.8in;height:.8in">
+      <div class="qr-text">
+        <h3>Class schedule</h3>
+        <p class="url">columbiagadgetworks.org/classes</p>
+      </div>
+    </div>
+    <p class="fineprint" style="margin:0">Financial assistance for this program has been provided by the City of Columbia Office of Cultural Affairs.</p>
+
+    <hr class="rule">
+
+    <p class="eyebrow">Membership</p>
+    <h2 style="font-size:13pt">Make it your shop</h2>
+    <ul class="ticks small">
+      <li><strong>24/7 access</strong> with your own door credential</li>
+      <li><strong>A storage locker or bin</strong> for projects</li>
+      <li><strong>Training discounts</strong> and first dibs on class seats</li>
+      <li><strong>A vote</strong> in how the space is run</li>
+    </ul>
+    <table class="dues">
+      <tr><td>Standard</td><td>$50/mo</td><td class="muted">Full access, one adult</td></tr>
+      <tr><td>Supporter</td><td>$100/mo</td><td class="muted">Full access, plus helps keep the doors open</td></tr>
+    </table>
+
+    <div class="grow"></div>
+    <p class="eyebrow" style="margin-bottom:.06in">How to join</p>
+    <ol class="steps small" style="margin:0">
+      <li>Visit on a Thursday and take a tour.</li>
+      <li>Sign up online at columbiagadgetworks.org/membership.</li>
+      <li>Do a 30-minute safety orientation.</li>
+      <li>Get your door credential and locker.</li>
+    </ol>
+  </section>
+</div>
+
+</body>
+</html>
