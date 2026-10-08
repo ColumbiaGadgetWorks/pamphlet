@@ -9,7 +9,7 @@ Your requests:
 
 - [x] Discord server, with a large QR code (fold-in flap, the first thing seen when the cover opens)
 - [x] Website, with QR code (back panel)
-- [x] Social media with icons and handles: Instagram, TikTok, Facebook, Bluesky (back panel, no QR codes)
+- [x] Social media with icons and handles: Instagram, TikTok, Facebook, Bluesky, LinkedIn (back panel, no QR codes), plus columbiagadgetworks.org/links
 - [x] Wiki, with QR code (back panel)
 - [x] Equipment list with real shop photos: laser cutter, CNC router, 3D printers, metal shop, metal casting, electronics bench, and the woodshop with its SawStop contractor table saw
 - [x] Free monthly classes, with the City of Columbia Office of Cultural Affairs acknowledgement and a QR code to the events calendar
@@ -41,6 +41,7 @@ Added:
 
 ## Check before printing
 
+- [ ] **columbiagadgetworks.org/links is live.** The pamphlet and business card both print it; it comes from the website `/links` page PR.
 - [ ] **SawStop photo.** The woodshop card still uses the general woodshop photo. Save a real photo of the shop's SawStop as `assets/photos/sawstop.jpg`, change the woodshop `<img>` in `pamphlet.html` to point at it, and rebuild.
 
 - [x] **Discord invite** `discord.gg/yjpeBrAjuR` is set to never expire.
