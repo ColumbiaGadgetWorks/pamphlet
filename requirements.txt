@@ -1,0 +1,7 @@
+segno
+shapely
+fonttools
+uharfbuzz
+potracer
+numpy
+pillow

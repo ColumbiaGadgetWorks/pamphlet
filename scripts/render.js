@@ -2,6 +2,7 @@
 //   pamphlet.html       -> pamphlet.pdf (two letter-size landscape pages)
 //   business-card.html  -> business-card.pdf (front and back, with bleed)
 //                          business-card-sheet.pdf (letter, 10 per side)
+//   build/yard-sign/*.svg -> yard-sign/yard-sign.pdf (24 x 18 in) and previews
 const { chromium } = require("playwright");
 const path = require("node:path");
 
@@ -32,6 +33,12 @@ const fileUrl = (name, query = "") => "file://" + path.join(root, name) + query;
   await page.goto(fileUrl("business-card.html", "?sheet"), { waitUntil: "networkidle" });
   await pdf("business-card-sheet.pdf");
 
+  // Yard sign: the art SVG is drawn at real size (24 x 18 in = 2304 x 1728 px).
+  const sign = await browser.newPage({ viewport: { width: 2304, height: 1728 }, deviceScaleFactor: 0.5 });
+  await sign.goto(fileUrl("build/yard-sign/yard-sign.svg"));
+  await sign.screenshot({ path: build("yard-sign/preview.png") });
+  await sign.pdf({ path: build("yard-sign/yard-sign.pdf"), width: "24in", height: "18in", printBackground: true, pageRanges: "1" });
+
   await browser.close();
-  console.log("build/: pamphlet.pdf, business-card.pdf, business-card-sheet.pdf, preview PNGs");
+  console.log("build/: pamphlet.pdf, business-card.pdf, business-card-sheet.pdf, yard-sign/, preview PNGs");
 })();

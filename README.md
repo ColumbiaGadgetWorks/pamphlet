@@ -1,6 +1,6 @@
 # Columbia Gadget Works print materials
 
-A tri-fold pamphlet and a business card, in the same design language.
+A tri-fold pamphlet, a business card, and a yard sign, in the same design language.
 
 ## Pamphlet
 
@@ -45,12 +45,49 @@ Two print files:
   at 100%. The small tick marks show the cut lines; do a plain-paper test
   first and hold it against a card sheet to check alignment.
 
+## Yard sign
+
+24 x 18 in, for white corrugated plastic (coroplast) sign board, painted
+through laser-cut stencils.
+
+![Yard sign](build/yard-sign/preview.png)
+
+Files in `build/yard-sign/`:
+
+- **stencil-rust.svg** and **stencil-dark.svg**: laser files, one per color.
+  Red hairlines are the cuts; the blue hairline is the 24 x 18 in sheet
+  outline (skip it if the sheet is already cut to size).
+- **stencil-one-color.svg**: both layers in one stencil, for a single color.
+- **yard-sign.pdf**: full-size color art, if a sign shop prints it instead.
+
+Every stencil is checked for islands when it is built (pieces with no bridge
+to the sheet, which would fall out); the build fails if it finds one. The
+letters come from Big Shoulders Stencil (SIL Open Font License,
+`assets/fonts/`), and the gear is traced from the website logo with four
+bridges added across the ring.
+
+Making one:
+
+1. **Stencil material:** 10 mil Mylar (polyester) is reusable and cuts
+   cleanly; poster board works for a few signs. Never laser PVC or vinyl.
+   A 24 x 18 in sheet fits the shop laser's 28 x 20 in bed. Run a small
+   test cut first for power and speed.
+2. **Board:** coroplast is polypropylene, so use a spray paint made for
+   plastic. Wipe the board with isopropyl alcohol first. For H-stakes, the
+   flutes should run up and down (along the 18 in side).
+3. **Paint:** tack the stencil down with repositionable spray adhesive so
+   paint doesn't creep under the edges. Use light coats, held straight on.
+4. **Two colors:** paint the rust stencil, let it dry, then line the dark
+   stencil up to the same board edges and paint it. Both stencils are the
+   size of the board, so the corners are the registration marks.
+
 ## Editing
 
-The pamphlet is `pamphlet.html` and the card is `business-card.html`. Edit the text there and rebuild:
+The pamphlet is `pamphlet.html`, the card is `business-card.html`, and the
+yard sign is `scripts/make_yard_sign.py`. Edit there and rebuild:
 
 ```bash
-pip install segno      # QR codes
+pip install -r requirements.txt   # QR codes, yard sign geometry
 npm install            # playwright, for rendering to PDF
 ./build.sh
 ```
