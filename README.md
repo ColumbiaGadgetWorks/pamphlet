@@ -54,6 +54,13 @@ Two print files:
 - **[build/business-card.pdf](build/business-card.pdf)**: for a print shop.
   Page 1 is the front, page 2 the back, each 3.75 x 2.25 in including a
   1/8 in bleed on every side (trim to 3.5 x 2 in).
+- **[build/business-card-vistaprint.pdf](build/business-card-vistaprint.pdf)**:
+  for Vistaprint. Page 1 is the front, page 2 the back, each 3.61 x 2.11 in
+  (Vistaprint's size: 0.055 in bleed per side, measured from their editor's
+  guides). Upload this one there, not the print-shop file, which is a
+  different shape and gets scaled and cropped. Text stays well inside their
+  safe line (about 0.06 in inside the trim). To check against their guides,
+  open `business-card.html?vistaprint&guides`.
 - **[build/business-card-sheet.pdf](build/business-card-sheet.pdf)**: for
   printing in-house on US Letter perforated card sheets with 10 cards per
   sheet (Avery 8371 / 5371 layout). Print double-sided, flip on long edge,

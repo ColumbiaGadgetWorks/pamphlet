@@ -7,9 +7,15 @@
   US business card, 3.5 x 2 in, front and back. Same design language as
   pamphlet.html (website palette, kiosk drafting grid, mono labels).
 
-  Two layouts from one design, picked by the URL:
+  Three layouts from one design, picked by the URL:
     business-card.html          one card per page with 1/8 in bleed on
                                 every side (3.75 x 2.25 in), for a print shop
+    business-card.html?vistaprint
+                                one card per page at Vistaprint's size,
+                                3.61 x 2.11 in (0.055 in bleed per side,
+                                measured from the guides in their editor;
+                                their safe line is about 0.06 in inside the
+                                trim). Add &guides to draw trim and safe line.
     business-card.html?sheet    US Letter, 10 cards per side, laid out for
                                 Avery 8371-style perforated card sheets
   Every card is drawn at bleed size; the sheet layout clips it to 3.5 x 2 in.
@@ -218,6 +224,12 @@
   .sheet:last-child { break-after: auto; }
   .clip { width: 3.5in; height: 2in; overflow: hidden; position: relative; }
   .clip .card { margin: calc(-1 * var(--bleed)); }
+
+  html.vistaprint { --bleed: .055in; }
+  /* ?vistaprint&guides: trim (blue) and Vistaprint's safe line (green) */
+  .guide { position: absolute; pointer-events: none; z-index: 10; }
+  .guide.trim { inset: var(--bleed); border: 1px solid #1E88E5; }
+  .guide.safe { inset: calc(var(--bleed) + .058in); border: 1px dashed #2E9E6B; }
   /* Faint trim guides, outside the cards, to check alignment on a test print */
   .sheet .guide { position: absolute; background: #bbb; }
 </style>
@@ -273,15 +285,27 @@
 
 <script>
   const card = id => document.getElementById(id).content.firstElementChild.cloneNode(true);
-  const sheetMode = new URLSearchParams(location.search).has("sheet");
+  const q = new URLSearchParams(location.search);
+  const sheetMode = q.has("sheet");
 
   if (!sheetMode) {
+    const vistaprint = q.has("vistaprint");
+    if (vistaprint) document.documentElement.classList.add("vistaprint");
     const style = document.createElement("style");
-    style.textContent = "@page { size: 3.75in 2.25in; }";
+    style.textContent = vistaprint ? "@page { size: 3.61in 2.11in; }" : "@page { size: 3.75in 2.25in; }";
     document.head.append(style);
     const wrap = document.createElement("div");
     wrap.className = "shop";
     wrap.append(card("front"), card("back"));
+    if (q.has("guides")) {
+      for (const c of wrap.children) {
+        for (const cls of ["trim", "safe"]) {
+          const g = document.createElement("div");
+          g.className = "guide " + cls;
+          c.append(g);
+        }
+      }
+    }
     document.body.append(wrap);
   } else {
     const style = document.createElement("style");

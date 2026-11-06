@@ -2,6 +2,7 @@
 //   pamphlet.html       -> pamphlet.pdf (two letter-size landscape pages)
 //                          pamphlet-vistaprint.pdf (11.11 x 8.63 in, with bleed)
 //   business-card.html  -> business-card.pdf (front and back, with bleed)
+//                          business-card-vistaprint.pdf (3.61 x 2.11 in)
 //                          business-card-sheet.pdf (letter, 10 per side)
 //   build/yard-sign/*.svg -> yard-sign/yard-sign.pdf (24 x 18 in) and previews
 const { chromium } = require("playwright");
@@ -38,6 +39,14 @@ const fileUrl = (name, query = "") => "file://" + path.join(root, name) + query;
   const cards = await page.$$(".card");
   for (const [i, side] of ["front", "back"].entries()) {
     await cards[i].screenshot({ path: build(`preview-card-${side}.png`) });
+  }
+
+  await page.goto(fileUrl("business-card.html", "?vistaprint"), { waitUntil: "networkidle" });
+  await pdf("business-card-vistaprint.pdf");
+  await page.goto(fileUrl("business-card.html", "?vistaprint&guides"), { waitUntil: "networkidle" });
+  const vpCards = await page.$$(".card");
+  for (const [i, side] of ["front", "back"].entries()) {
+    await vpCards[i].screenshot({ path: build(`preview-card-vistaprint-${side}.png`) });
   }
 
   await page.goto(fileUrl("business-card.html", "?sheet"), { waitUntil: "networkidle" });
