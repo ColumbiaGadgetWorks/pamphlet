@@ -36,6 +36,9 @@
     --bleed: .125in;
     /* Keep text this far inside the trim line */
     --safe: .16in;
+    /* Rust stripe on the front, as seen after trimming. Tall enough to
+       reach well inside Vistaprint's safe line (about .06 in in). */
+    --stripe: .12in;
   }
 
   * { box-sizing: border-box; }
@@ -69,7 +72,7 @@
     flex-direction: column;
     justify-content: space-between;
     /* Keep the tool row clear of the rust stripe */
-    padding-bottom: calc(var(--bleed) + .07in + .1in);
+    padding-bottom: calc(var(--bleed) + var(--stripe) + .08in);
   }
   .front .brand { display: flex; align-items: center; gap: .14in; flex: 1; }
   .front::after {
@@ -79,7 +82,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    height: calc(var(--bleed) + .07in);
+    height: calc(var(--bleed) + var(--stripe));
     background: var(--rust);
   }
   .front .logo { width: 1.02in; height: 1.02in; flex: none; }
