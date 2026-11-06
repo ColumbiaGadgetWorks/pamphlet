@@ -46,7 +46,7 @@ Added:
 
 - [x] **Discord invite** `discord.gg/yjpeBrAjuR` is set to never expire.
 - [ ] **Laser cutter**: the website says OMTech MF2028-80, but the photo shows a "Preenex" badge. The pamphlet says only "80 W CO2" to avoid the conflict. Fix the website if needed.
-- [ ] **Class program dates** (Nov 5, 2026 through Oct 2027, first Thursdays) and the OCA acknowledgement wording match the grant agreement.
+- [ ] **Class program dates** (first Tuesday of every month, through Oct 2027) and the OCA acknowledgement wording match the grant agreement.
 - [ ] **Dues** are still $50 a month.
 - [ ] **Recent classes** and **equipment** lists match what the zone leads want to advertise (the website has open TODOs for the woodshop and welder lists).
 - [ ] People in the cover and robot arena photos are OK appearing in print.
