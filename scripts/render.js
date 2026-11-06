@@ -1,5 +1,6 @@
 // Render the print files and PNG previews into build/:
 //   pamphlet.html       -> pamphlet.pdf (two letter-size landscape pages)
+//                          pamphlet-vistaprint.pdf (11.11 x 8.63 in, with bleed)
 //   business-card.html  -> business-card.pdf (front and back, with bleed)
 //                          business-card-sheet.pdf (letter, 10 per side)
 //   build/yard-sign/*.svg -> yard-sign/yard-sign.pdf (24 x 18 in) and previews
@@ -21,6 +22,15 @@ const fileUrl = (name, query = "") => "file://" + path.join(root, name) + query;
   const names = ["outside", "inside"];
   for (let i = 0; i < sides.length; i++) {
     await sides[i].screenshot({ path: build(`preview-${names[i]}.png`) });
+  }
+
+  // Vistaprint version: their page size, bleed and fold positions
+  await page.goto(fileUrl("pamphlet.html", "?vistaprint"), { waitUntil: "networkidle" });
+  await pdf("pamphlet-vistaprint.pdf");
+  await page.goto(fileUrl("pamphlet.html", "?vistaprint&guides"), { waitUntil: "networkidle" });
+  const vpSides = await page.$$(".sheet");
+  for (let i = 0; i < vpSides.length; i++) {
+    await vpSides[i].screenshot({ path: build(`preview-vistaprint-${names[i]}.png`) });
   }
 
   await page.goto(fileUrl("business-card.html"), { waitUntil: "networkidle" });

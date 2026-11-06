@@ -36,8 +36,15 @@
     --font: Arial, "Liberation Sans", "Helvetica Neue", Helvetica, sans-serif;
     --mono: Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
 
-    --full: 3.6875in;
-    --flap: 3.625in;
+    /* Page and panel widths, left to right. The fold-in panel is 1/16 in
+       narrower so it tucks in without buckling. ?vistaprint overrides these
+       (see html.vistaprint below). */
+    --page-w: 11in;
+    --page-h: 8.5in;
+    --bleed-x: 0in;
+    --bleed-y: 0in;
+    --out-1: 3.625in;  --out-2: 3.6875in; --out-3: 3.6875in;
+    --in-1: 3.6875in;  --in-2: 3.6875in;  --in-3: 3.625in;
     /* Office printers cannot print to the paper edge; keep everything this far in. */
     --safe: 0.3in;
     --gutter: 0.28in;
@@ -58,9 +65,24 @@
   img { display: block; max-width: 100%; }
   strong { font-weight: 700; }
 
+  /* Vistaprint's letter tri-fold, measured from the guides in their editor:
+     the file is 11.11 x 8.63 in (bleed 0.055 in left and right, 0.065 in top
+     and bottom), the safe area is 0.125 in inside the trim, and the outside
+     folds are 3.682 in and 7.351 in from the left bleed edge. The inside is
+     the same sheet flipped, so its folds mirror those. */
+  html.vistaprint {
+    --page-w: 11.11in;
+    --page-h: 8.63in;
+    --bleed-x: .055in;
+    --bleed-y: .065in;
+    --out-1: 3.682in;  --out-2: 3.669in;  --out-3: 3.759in;
+    --in-1: 3.759in;   --in-2: 3.669in;   --in-3: 3.682in;
+  }
+
   .sheet {
-    width: 11in;
-    height: 8.5in;
+    width: var(--page-w);
+    height: var(--page-h);
+    position: relative;
     display: flex;
     background: #fff;
     overflow: hidden;
@@ -72,8 +94,7 @@
     position: relative;
     height: 100%;
     flex: none;
-    width: var(--full);
-    padding: var(--safe) var(--gutter);
+    padding: calc(var(--safe) + var(--bleed-y)) var(--gutter);
     display: flex;
     flex-direction: column;
     /* Kiosk-style drafting grid on the website's warm paper */
@@ -84,10 +105,22 @@
     background-size: .25in .25in;
     background-position: -.3pt -.3pt;
   }
-  .panel.flap { width: var(--flap); }
+  .outside > .panel:nth-child(1) { width: var(--out-1); }
+  .outside > .panel:nth-child(2) { width: var(--out-2); }
+  .outside > .panel:nth-child(3) { width: var(--out-3); }
+  .inside > .panel:nth-child(1) { width: var(--in-1); }
+  .inside > .panel:nth-child(2) { width: var(--in-2); }
+  .inside > .panel:nth-child(3) { width: var(--in-3); }
   /* Outer edges of the sheet get the printer-safe margin on that side only. */
-  .sheet > .panel:first-child { padding-left: var(--safe); }
-  .sheet > .panel:last-child { padding-right: var(--safe); }
+  .sheet > .panel:first-child { padding-left: calc(var(--safe) + var(--bleed-x)); }
+  .sheet > .panel:last-child { padding-right: calc(var(--safe) + var(--bleed-x)); }
+
+  /* ?vistaprint&guides: trim (blue), safe area (green) and folds (red), to
+     check the layout against Vistaprint's editor. Never in a print file. */
+  .guide { position: absolute; pointer-events: none; z-index: 10; }
+  .guide.trim { inset: var(--bleed-y) var(--bleed-x); border: 1px solid #1E88E5; }
+  .guide.safe { inset: calc(var(--bleed-y) + .125in) calc(var(--bleed-x) + .125in); border: 1px dashed #2E9E6B; }
+  .guide.fold { top: 0; bottom: 0; width: 0; border-left: 1px dashed #E53935; }
 
   /* ---------- type ---------- */
 
@@ -222,7 +255,7 @@
   }
   .cover-inner {
     height: 100%;
-    padding: .45in var(--safe) var(--safe) .32in;
+    padding: calc(.45in + var(--bleed-y)) calc(var(--safe) + var(--bleed-x)) calc(var(--safe) + var(--bleed-y)) .32in;
     display: flex;
     flex-direction: column;
   }
@@ -353,11 +386,42 @@
   .fineprint { font-size: 6.6pt; color: var(--muted); line-height: 1.35; }
   .grow { flex: 1; }
 </style>
+<script>
+  // ?vistaprint: Vistaprint's page size, bleed and fold positions.
+  // ?vistaprint&guides: also draw their trim, safe area and fold guides.
+  const q = new URLSearchParams(location.search);
+  if (q.has("vistaprint")) {
+    document.documentElement.classList.add("vistaprint");
+    const style = document.createElement("style");
+    style.textContent = "@page { size: 11.11in 8.63in; margin: 0; }";
+    document.head.append(style);
+  }
+  if (q.has("guides")) {
+    addEventListener("DOMContentLoaded", () => {
+      for (const sheet of document.querySelectorAll(".sheet")) {
+        for (const cls of ["trim", "safe"]) {
+          const g = document.createElement("div");
+          g.className = "guide " + cls;
+          sheet.append(g);
+        }
+        // Vistaprint's fold lines as measured in their editor, drawn on their
+        // own (not from the panel widths) so a mismatch shows.
+        const folds = sheet.classList.contains("outside") ? [3.682, 7.351] : [11.11 - 7.351, 11.11 - 3.682];
+        for (const x of folds) {
+          const g = document.createElement("div");
+          g.className = "guide fold";
+          g.style.left = x + "in";
+          sheet.append(g);
+        }
+      }
+    });
+  }
+</script>
 </head>
 <body>
 
 <!-- ======================= SHEET 1: OUTSIDE ======================= -->
-<div class="sheet">
+<div class="sheet outside">
 
   <!-- Fold-in flap: the first thing seen when the cover is opened -->
   <section class="panel flap">
@@ -414,7 +478,7 @@
       <dt>Address</dt>
       <dd>1404 Grand Ave<br>Columbia, MO 65203<br><span>Just off Business Loop 70, north of downtown</span></dd>
       <dt>Getting in</dt>
-      <dd><span>Park in the gravel lot beside the building. Use the front door with the gear logo, and ring the doorbell if it's closed.</span></dd>
+      <dd><span>Park in the gravel lot beside the building. Use the front door with the gear logo and ring the doorbell.</span></dd>
       <dt>Email</dt>
       <dd>mail@columbiagadgetworks.org</dd>
     </dl>
@@ -442,7 +506,7 @@
       </div>
     </div>
 
-    <p class="eyebrow" style="margin-top:.14in">Follow our socials</p>
+    <p class="eyebrow" style="margin-top:.1in">Follow our socials</p>
     <ul class="social">
       <li><img class="ico" src="assets/icons/instagram.svg" alt="Instagram logo"><b>Instagram</b><span class="handle">@columbiagadgetworks</span></li>
       <li><img class="ico" src="assets/icons/tiktok.svg" alt="TikTok logo"><b>TikTok</b><span class="handle">@columbia.gadget.w</span></li>
@@ -476,7 +540,7 @@
 </div>
 
 <!-- ======================= SHEET 2: INSIDE ======================= -->
-<div class="sheet">
+<div class="sheet inside">
 
   <!-- Inside panel 1 -->
   <section class="panel">

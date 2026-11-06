@@ -14,6 +14,21 @@ the shop. Ready to print: **[build/pamphlet.pdf](build/pamphlet.pdf)**.
 What is in it, ideas for more, and the pre-print checklist:
 [CONTENT.md](CONTENT.md).
 
+### Ordering from Vistaprint
+
+Upload **[build/pamphlet-vistaprint.pdf](build/pamphlet-vistaprint.pdf)**,
+not the home-print file. It is built to Vistaprint's letter tri-fold:
+11.11 x 8.63 in including bleed, backgrounds running to the edge, and the
+panels sized to the fold lines in their editor (measured from a screenshot
+of it: folds 3.682 in and 7.351 in from the left edge on the outside,
+mirrored on the inside). Page 1 is the outside, page 2 the inside. Text
+stays well inside their 0.125 in safe area.
+
+In Vistaprint's preview, check that both red fold lines fall on panel
+edges, on both sides, before ordering. To see the same guides locally,
+open `pamphlet.html?vistaprint&guides` in a browser; the build also saves
+them as `build/preview-vistaprint-outside.png` and `-inside.png`.
+
 ### Printing the pamphlet
 
 - US Letter, landscape, **double-sided, flip on short edge**.
