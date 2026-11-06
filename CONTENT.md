@@ -12,7 +12,7 @@ Your requests:
 - [x] Social media with icons and handles: Instagram, TikTok, Facebook, Bluesky, LinkedIn (back panel, no QR codes), plus columbiagadgetworks.org/links
 - [x] Wiki, with QR code (back panel)
 - [x] Equipment list with real shop photos: laser cutter, CNC router, 3D printers, metal shop, metal casting, electronics bench, and the woodshop with its SawStop contractor table saw
-- [x] Free monthly classes, with the City of Columbia Office of Cultural Affairs acknowledgement and a QR code to the events calendar
+- [x] Free monthly classes, with the City of Columbia Office of Cultural Affairs acknowledgement and a QR code to the class sign-up page
 
 Added:
 

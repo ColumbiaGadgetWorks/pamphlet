@@ -10,7 +10,7 @@ LINKS = {
     "discord": "https://discord.gg/yjpeBrAjuR",
     "website": "https://columbiagadgetworks.org/",
     "wiki": "https://wiki.comogadget.casa/",
-    "calendar": "https://columbiagadgetworks.org/calendar/",
+    "classes": "https://columbiagadgetworks.org/classes/",
     "donate": "https://columbiagadgetworks.org/donate/",
 }
 
